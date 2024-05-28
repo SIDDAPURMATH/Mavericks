@@ -9,14 +9,14 @@ Senosr Technologies is a potential future route for the creation of a gas leakag
 __Components:-__  
 
 1.VSD squadron mini.  
-2.LPG gas sensor module  
-3.Buzzer  
-4.BC 547 transistor  
-5. 16*2LCD  
-6.1K resistor  
-7.Bread board  
-8. 9V battery  
-9.Connecting wires  
+2.LPG gas sensor module.  
+3.Buzzer.  
+4.BC 547 transistor.  
+5. 16*2LCD.  
+6.1K resistor.  
+7.Bread board. 
+8. 9V battery. 
+9.Connecting wires.  
 
 __Circuit Diagram:-__
 
