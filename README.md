@@ -1,1 +1,3 @@
-# Mavericks
+#Introduction#
+The LPG is an essential need of every household, its leakage could lead to a disaster. To alert on LPG leakage and prevent any mishappening there are various products to detect the leakage. Here we have developed an LPG gas detector alarm. If gas leakage occurs, this system detects it and makes an alert by buzing the buzzer attached with the circuit. This system is easy to build and anyone who have some knowledge of electronics and programing, can build it..The  prime  aim of  paper  is  to  detect Gas  leakage  in home,  hotels,  schools  and other  domestic  areas,  and gives  alert  message  to  the  surrounding  people. Nowadays Gas sensors are  being used globally  in  the field  like  safety,  health,  instrumentation  etc.  This paper is  an implementation of  the same  using gas  sensor.This module is very easy to interface with microcontrollers  and easily available in market by name “LPG Gas Sensor Module”.
+#Methodology#
