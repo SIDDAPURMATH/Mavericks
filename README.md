@@ -18,7 +18,14 @@ __Components:-__
 8. 9V battery. 
 9.Connecting wires.  
 
-__Circuit Diagram:-__
+__Circuit Diagram:-__  
+![THIS IS FINAL](https://github.com/SIDDAPURMATH/Mavericks/assets/171076803/e12ee5df-f34d-4a04-b6ff-d3e1e5104721)   
+
+__Table for Pin Connection:-__  
+![THIS ONE PIN](https://github.com/SIDDAPURMATH/Mavericks/assets/171076803/195ed1d6-7ebe-4dd0-90f1-33cd213fb2e5)
+
+
+
 
 
 
