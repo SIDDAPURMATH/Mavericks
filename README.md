@@ -12,7 +12,7 @@ __Components:-__
 2.LPG gas sensor module.  
 3.Buzzer.  
 4.BC 547 transistor.  
-5. 16*2LCD.  
+5. LED.  
 6.1K resistor.  
 7.Bread board. 
 8. 9V battery. 
