@@ -14,9 +14,10 @@ __Components:-__
 4.BC 547 transistor.  
 5. LED.  
 6.1K resistor.  
-7.Bread board. 
-8. 9V battery. 
-9.Connecting wires.  
+7.Bread board.  
+8. 9V battery.  
+9.Connecting wires.
+  
 
 __Circuit Diagram:-__  
 ![THIS IS FINAL](https://github.com/SIDDAPURMATH/Mavericks/assets/171076803/e12ee5df-f34d-4a04-b6ff-d3e1e5104721)   
