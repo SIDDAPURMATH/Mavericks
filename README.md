@@ -23,8 +23,7 @@ __Circuit Diagram:-__
 ![THIS IS FINAL](https://github.com/SIDDAPURMATH/Mavericks/assets/171076803/e12ee5df-f34d-4a04-b6ff-d3e1e5104721)   
 
 __Table for Pin Connection:-__  
-![THIS ONE PIN](https://github.com/SIDDAPURMATH/Mavericks/assets/171076803/195ed1d6-7ebe-4dd0-90f1-33cd213fb2e5)
-
+![AJAY](https://github.com/SIDDAPURMATH/Mavericks/assets/164477694/b20d01f4-440e-4f76-81ea-e905f2bef259)
 
 
 
