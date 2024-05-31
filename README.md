@@ -10,8 +10,7 @@ __Components:-__
 
 1.VSD squadron mini.  
 2.LPG gas sensor module.  
-3.Buzzer.  
-4.BC 547 transistor.  
+3.Buzzer.   
 5. LED.  
 6.1K resistor.  
 7.Bread board.  
