@@ -24,129 +24,139 @@ __Circuit Diagram:-__
 __Table for Pin Connection:-__  
 ![AJAY](https://github.com/SIDDAPURMATH/Mavericks/assets/164477694/b20d01f4-440e-4f76-81ea-e905f2bef259)  
 __Code Required:-__  
-#include <ch32v00x.h> // Include the library for CH32V00x series microcontroller
-#include <debug.h>    // Include debugging library
+#include <ch32v00x.h>
+#include <debug.h>
 
-// Define GPIO pins and ports for LED and Gas Sensor
-#define GAS_SENSOR_PIN  GPIO_Pin_2  // Analog pin connected to the gas sensor output
-#define LED_PIN         GPIO_Pin_0  // LED pin
-#define LED_GPIO_PORT   GPIOD       // LED GPIO port
-#define SENSOR_GPIO_PORT GPIOD      // Sensor GPIO port
+#define LED_GPIO_PORT GPIOD
+#define LED_GPIO_PIN GPIO_Pin_4
+
+#define LED2_GPIO_PORT GPIOD
+#define LED2_GPIO_PIN GPIO_Pin_6
+
+
+#define BUZZER_GPIO_PORT GPIOD
+#define BUZZER_GPIO_PIN GPIO_Pin_3
+#define GAS_SENSOR_GPIO_PIN GPIO_Pin_2 // LPG gas sensor output connected to GPIO Pin 2
+
+
+// #define BLINKY_GPIO_PORT GPIOD
+// #define BLINKY_GPIO_PIN GPIO_Pin_6
+// #define BLINKY_CLOCK_ENABLE RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE)
+
+#define LED2_CLOCK_ENABLE RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE)
+#define LED_CLOCK_ENABLE RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE)
+#define BUZZER_CLOCK_ENABLE RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE)
+#define GAS_SENSOR_CLOCK_ENABLE RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE)
 
 // Function prototypes
-void Delay_Init(void); // Initializes the delay function
-void Delay_Ms(uint32_t n); // Delay function for n milliseconds
-
-// Function to configure ADC (Analog to Digital Converter)
-void configureADC() {
-    ADC_InitTypeDef ADC_InitStructure; // Structure to configure ADC parameters
-
-    // Enable ADC1 peripheral clock
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
-
-    // Reset ADC1 to initial state
-    ADC_DeInit(ADC1);
-
-    // Configure ADC1
-    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent; // Independent ADC mode
-    ADC_InitStructure.ADC_ScanConvMode = DISABLE; // Single channel conversion
-    ADC_InitStructure.ADC_ContinuousConvMode = ENABLE; // Continuous conversion mode
-    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None; // No external trigger
-    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right; // Right-aligned data
-    ADC_InitStructure.ADC_NbrOfChannel = 1; // Single channel conversion
-    ADC_Init(ADC1, &ADC_InitStructure);
-
-    // Configure the regular channel to be converted by ADC1
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_55Cycles5);
-
-    // Enable ADC1
-    ADC_Cmd(ADC1, ENABLE);
-
-    // Calibrate ADC1
-    ADC_ResetCalibration(ADC1);
-    while (ADC_GetResetCalibrationStatus(ADC1));
-    ADC_StartCalibration(ADC1);
-    while (ADC_GetCalibrationStatus(ADC1));
-
-    // Start ADC1 software conversion
-    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-}
-
-// Function to read the ADC value
-uint16_t readADC() {
-    // Wait for the end of conversion flag
-    while (!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC));
-    // Return the ADC conversion result
-    return ADC_GetConversionValue(ADC1);
-}
+//(void) _attribute_((interrupt("WCH-Interrupt-fast")));
+//void HardFault_Handler(void) _attribute_((interrupt("WCH-Interrupt-fast")));
+void Delay_Init(void);
+void Delay_Ms(uint32_t n);
 
 // Main function
-int main(void) {
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // Set NVIC priority grouping
+int main(void)
+{
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); // Configure NVIC priority grouping
     SystemCoreClockUpdate(); // Update system core clock
-    Delay_Init(); // Initialize delay functions
+    Delay_Init(); // Initialize delay function
 
     // GPIO configuration structure
-    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
 
-    // Enable clock for GPIO port of LED
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
+    // Enable clock for GPIO port
+    LED_CLOCK_ENABLE;
+	LED2_CLOCK_ENABLE;
+    BUZZER_CLOCK_ENABLE;
+    GAS_SENSOR_CLOCK_ENABLE;
 
-    // Configure LED pin as output
-    GPIO_InitStructure.GPIO_Pin = LED_PIN;
+
+	// BLINKY_CLOCK_ENABLE;
+	// GPIO_InitStructure.GPIO_Pin = BLINKY_GPIO_PIN;
+	// GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	// GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	// GPIO_Init(BLINKY_GPIO_PORT, &GPIO_InitStructure);
+
+    // Configure GPIO pin for LED
+    GPIO_InitStructure.GPIO_Pin = LED_GPIO_PIN;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output push-pull mode
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // Set speed to 50 MHz
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // GPIO speed
     GPIO_Init(LED_GPIO_PORT, &GPIO_InitStructure);
 
-    // Configure gas sensor pin as analog input
-    GPIO_InitStructure.GPIO_Pin = GAS_SENSOR_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN; // Analog input mode
-    GPIO_Init(SENSOR_GPIO_PORT, &GPIO_InitStructure);
+    // Configure GPIO pin for LED2
+    GPIO_InitStructure.GPIO_Pin = LED2_GPIO_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output push-pull mode
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // GPIO speed
+    GPIO_Init(LED2_GPIO_PORT, &GPIO_InitStructure);
 
-    // Configure ADC to read gas sensor data
-    configureADC();
+	
+	// Configure GPIO pin for buzzer
+    GPIO_InitStructure.GPIO_Pin = BUZZER_GPIO_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Output push-pull mode
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // GPIO speed
+    GPIO_Init(BUZZER_GPIO_PORT, &GPIO_InitStructure);
+
+    // Configure GPIO pin for gas sensor input
+    GPIO_InitStructure.GPIO_Pin = GAS_SENSOR_GPIO_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; // Input mode with pull-up resistor
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    // Initialize UART for debugging
+    USART_Printf_Init(115200); // Initialize UART with baud rate 115200
+    printf("System Initialized\n");
 
     // Main loop
-    while (1) {
-        // Read gas level from sensor
-        uint16_t gasLevel = readADC(); // Read analog value from gas sensor
+	//uint8_t ledState = 0;
+    while (1)
 
-        // Check if gas level exceeds the threshold
-        if (gasLevel > 512) { // Example threshold value (adjust as needed)
-            GPIO_SetBits(LED_GPIO_PORT, LED_PIN); // Turn on LED
-        } else {
-            GPIO_ResetBits(LED_GPIO_PORT, LED_PIN); // Turn off LED
+    {	
+		// GPIO_WriteBit(BLINKY_GPIO_PORT, BLINKY_GPIO_PIN, ledState);
+		// ledState ^= 1; // invert for the next run
+        // Read gas sensor status
+        uint8_t gasStatus = !GPIO_ReadInputDataBit(GPIOD, GAS_SENSOR_GPIO_PIN);
+        printf("Gas Sensor Status: %d\n", gasStatus);
+
+        // Control the buzzer and LED based on gas sensor output
+        if (gasStatus == 1) // Gas sensor detected gas leak
+        {
+            GPIO_WriteBit(BUZZER_GPIO_PORT, BUZZER_GPIO_PIN, SET); // Turn on buzzer
+            GPIO_WriteBit(LED_GPIO_PORT, LED_GPIO_PIN, SET); // Turn on LED
+			GPIO_WriteBit(LED2_GPIO_PORT, LED2_GPIO_PIN, RESET); // Turn off LED
+            printf("Gas Detected! Buzzer ON, LED ON\n");
+        }
+        else
+        {
+            GPIO_WriteBit(BUZZER_GPIO_PORT, BUZZER_GPIO_PIN, RESET); // Turn off buzzer
+            GPIO_WriteBit(LED_GPIO_PORT, LED_GPIO_PIN, RESET); // Turn off LED
+            GPIO_WriteBit(LED2_GPIO_PORT, LED2_GPIO_PIN, SET); // Turn on LED
+			printf("No Gas. Buzzer OFF, LED OFF\n");
         }
 
-        // Delay for 1 second
-        Delay_Ms(1000); // Delay for 1000 milliseconds (1 second)
+        Delay_Ms(250); // Delay for debouncing and visualization
     }
 }
 
-// Non-Maskable Interrupt (NMI) handler
-void NMI_Handler(void) {}
+// // Non-Maskable Interrupt handler
+// void NMI_Handler(void) {}
 
-// Hard Fault handler
-void HardFault_Handler(void) {
-    while (1) {} // Stay in infinite loop if a hard fault occurs
-}
+// // Hard Fault handler
+// void HardFault_Handler(void)
+// {
+//     while (1) {}
+// }
 
-// Initialize delay function
-void Delay_Init(void) {
-    // Configure SysTick timer for 1ms ticks
-    SysTick_Config(SystemCoreClock / 1000);
-}
+// Delay initialization function
+// void Delay_Init(void)
+// {
+//     SysTick_Config(SystemCoreClock / 1000); // Configure SysTick for 1ms ticks
+// }
 
-// Millisecond delay function
-void Delay_Ms(uint32_t n) {
-    while (n--) {
-        // Wait until the SysTick count flag is set
-        while (!(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk)) {}
-    }
-}
-
-
-
-
-
+// // Millisecond delay function
+// void Delay_Ms(uint32_t n)
+// {
+//     while (n--)
+//     {
+//         while (!(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk)) {} // Wait for SysTick flag
+//     }
+// }
 
