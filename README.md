@@ -19,10 +19,12 @@ __Components:-__
   
 
 __Circuit Diagram:-__  
-![THIS IS FINAL](https://github.com/SIDDAPURMATH/Mavericks/assets/171076803/e12ee5df-f34d-4a04-b6ff-d3e1e5104721)   
+![NEW CIRCUIT](https://github.com/SIDDAPURMATH/Mavericks/assets/171076803/73ba4401-c156-42e1-a3cc-b416028e5212)  
+
 
 __Table for Pin Connection:-__  
-![AJAY](https://github.com/SIDDAPURMATH/Mavericks/assets/164477694/b20d01f4-440e-4f76-81ea-e905f2bef259)  
+![KRISHANA](https://github.com/SIDDAPURMATH/Mavericks/assets/171076803/67e12648-d28c-4877-82fe-1f5fa61423cd)  
+
 __Code Required:-__  
 #include <ch32v00x.h>
 #include <debug.h>
