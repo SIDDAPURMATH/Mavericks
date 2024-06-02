@@ -160,5 +160,8 @@ int main(void)
 //     {
 //         while (!(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk)) {} // Wait for SysTick flag
 //     }
-// }
+// }  
 
+__VIDEO:-__    
+The below video link is a demonstration of "__LPG GAS DETECTOR USING VSD SQUADRON:-__"
+https://drive.google.com/file/d/14DvFsyZkoObkG1SMx47DKNTK95KRplA7/view?usp=drivesdk
